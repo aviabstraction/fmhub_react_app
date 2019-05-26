@@ -7,16 +7,19 @@ class Tracks extends Component {
 		return (
 			<Consumer>
 				{(value) => {
+					let responsetype = value.track_list.track ? 'search' : 'default';
+					let data = value.track_list.track ? value.track_list.track : value.track_list;
+
 					console.log(value);
-					if (value.track_list === undefined || value.track_list.length === 0) {
+					if (data === undefined || data.length === 0) {
 						return <Spinner />;
 					} else
 						return (
 							<Fragment>
 								<h1 style={{ textAlign: 'center', fontFamily: 'Cursive' }}>{value.heading}</h1>
 								<div className="row">
-									{value.track_list.map((track) => {
-										return <Track track={track} key={track.mbid} />;
+									{data.map((track) => {
+										return <Track track={track} key={track.mbid} result={responsetype} />;
 									})}
 								</div>
 							</Fragment>

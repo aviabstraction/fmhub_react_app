@@ -6,21 +6,24 @@ class Search extends Component {
 	state = {
 		songTitle: ''
 	};
-	findSong = (dispatch, e) => {
-		e.preventDefault();
 
-		axios
-			.get(
-				`https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0/?method=track.search&track=${this
-					.state.songTitle}&api_key=413491cd50dedcf484815830676178fc&format=json&limit=10&page=5`
-			)
-			.then((res) => {
-				dispatch({
-					type: `SEARCH_SONGS`,
-					payload: res.data
-				});
-			})
-			.catch((err) => console.log(err));
+	findSong = (dispatch) => {
+		return (e) => {
+			e.preventDefault();
+			axios
+				.get(
+					`https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0/?method=track.search&track=${this
+						.state.songTitle}&api_key=413491cd50dedcf484815830676178fc&format=json&limit=10&page=5`
+				)
+				.then((res) => {
+					console.info('SONGS', res.data.results.trackmatches.track);
+					dispatch({
+						type: `SEARCH_SONGS`,
+						payload: res.data.results.trackmatches
+					});
+				})
+				.catch((err) => console.log(err));
+		};
 	};
 
 	onChange = (e) => {
@@ -37,7 +40,7 @@ class Search extends Component {
 								<i className="fas fa-music" /> Search for your Favourite songs here
 							</h1>
 							<p className="lead text-center">Get any songs you like !!! </p>
-							<form onSubmit={this.findSong.bind(this, value.dispatch)}>
+							<form action="javascript:void(0)" onSubmit={this.findSong(value.dispatch)}>
 								<div className="form-group">
 									<input
 										type="text"

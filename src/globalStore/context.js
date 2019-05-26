@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 const Context = React.createContext();
+
 const reducer = (state, action) => {
 	switch (action.type) {
 		case 'SEARCH_SONGS':
@@ -30,7 +31,6 @@ export class Provider extends Component {
 				`https://cors-anywhere.herokuapp.com/http://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=rj&api_key=413491cd50dedcf484815830676178fc&format=json&limit=10&page=5`
 			)
 			.then((res) => {
-				// console.log(res.data.toptracks.track)
 				this.setState({ track_list: res.data.toptracks.track });
 			})
 			.catch((err) => console.log(err));
